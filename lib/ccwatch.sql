@@ -12,6 +12,8 @@ CREATE TABLE `config` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+INSERT INTO config (id, key, value, description, parentid) VALUES (2, 'markets', '0', 'Markets', NULL);
+INSERT INTO config (id, key, value, description, parentid) VALUES (1, 'pools', '0', 'Pools', NULL);
 
 # Dump of table market
 # ------------------------------------------------------------

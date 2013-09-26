@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>ccWatch Setup</title>
+      <script src="js/jquery.js"></script>
+      <script src="js/jquery-ui.js"></script>
+      <script src="js/setup.js"></script>
+      <link type="text/css" rel="stylesheet" href="css/jquery.css" />
+      <link rel="stylesheet" href="css/excite-bike/jquery-ui.css" />
+      <meta charset="utf-8">
+   </head>
+   <body>
+      <!-- START TABS -->
+      <div id="setupTabs">
+        <ul>
+            <li><a href="#step1">Step 1</a></li>
+            <li><a href="#step2">Step 2</a></li>
+            <li><a href="#step3">Finalize</a></li>
+        </ul>
+        
+        <div id="step1">
+            <h1>Supported Markets</h1>
+        
+        <table cols="2">
+            <tr>
+                <td>&nbsp;</td>
+                <td>Market (SRC/DST)</td>
+            </tr>
+            <tr>
+                <td><input type='checkbox' name='btceltcusd' value='https://btc-e.com/api/2/ltc_usd/ticker' checked />BTC-E (LTC/USD)</td>
+                <td><input type='checkbox' name='btcebtcusd' value='https://btc-e.com/api/2/btc_usd/ticker' />BTC-E (BTC/USD)</td>
+            </tr>
+        </table>
+        </div>
+        
+        <div id="step2">
+         <p>Here we add the various pools to be monitored.</p>
+         <h1>Pools!</h1>
+        </div>
+        <div id="step3">
+         <h1>CRON directions</h1>
+         <p>Here we tell the user how to add the cron job.</p>
+        </div>
+      </div>
+   </body>
+</html>
