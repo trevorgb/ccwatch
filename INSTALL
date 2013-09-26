@@ -1,0 +1,9 @@
+Install Directions
+-=-=-=-=-=-=-=-=-=-
+
+1. Use the SQL dump to create your tables in your MySQL server.
+2. Dump the rest of the files in a web accessable directory
+3. Set your database name, host, username, and password in config.ini
+4. Add a crontab job to run * * * * * ./cron.sh
+5. Add your market(s) and pool(s) to the 'config' table.
+6. Wait for data to appear in your database.

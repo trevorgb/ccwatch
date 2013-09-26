@@ -1,0 +1,39 @@
+#marketBlock {
+   position: fixed;
+   height: 20px;
+   bottom: 0;
+}
+
+#logBlock {
+   position: fixed;
+   height: 80px;
+   width: 98%;
+   padding: 0px;
+   margin: 0px;
+   bottom: 20px;
+   overflow-x: scroll;
+   overflow-y: none;
+   color: red;
+}
+
+#slaveList {
+   width: 200px;
+   float: left;
+}
+
+#slaveList ul {
+   list-style-type: none;
+}
+
+#slaveDetails {
+   float: right;
+   width: 500px;
+}
+
+.green {
+   color: #00FF00;
+}
+
+.red {
+   color: #FF0000;
+}
