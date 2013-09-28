@@ -1,0 +1,8 @@
+<div id="poolSummary">
+   <div><span>Hash Rate</span><div id="hashRate"></div></div>
+	<div><span>Paid Shares</span><div id="paidShares"></div></div>
+	<div><span>Un-Paid Shares</span><div id="unpaidShares"></div></div>
+	<div><span>Balance</span><div id="balance"></div></div>
+	<div><span>Income Estimate</span><div id="income"></div></div>
+	<div><span>Hashrate</span><div id="hashrate"></div></div>
+</div>
