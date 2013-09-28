@@ -1,4 +1,4 @@
 #!/bin/bash
-cd /Library/WebServer/Documents/ccwatch
+cd /var/www/ccwatch
 /usr/bin/php cron.php
 

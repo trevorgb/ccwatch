@@ -1,5 +1,4 @@
 <?php
-
 	class apiresponse {
 		public $error = array();
 		public $records = array();

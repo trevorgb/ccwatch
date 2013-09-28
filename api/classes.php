@@ -1,7 +1,7 @@
 <?php
 require_once('gb.classes.php');
 
-class miner {
+class pool {
     private $api_key = '';
     private $api_url = '';
     private $poolid  = 0;
@@ -50,17 +50,20 @@ class market {
    // fill the status with the last state and update the local time only.
    // else process as a new market state.
     private $market_url = '';
+    private $marketid = 0;
     private $state = '';
     public $status = array();
     
-    public function __construct($tickerURL = '') {
+    public function __construct($tickerURL = '', $marketID) {
+      $this->marketid = $marketID;
       $this->market_url = $tickerURL;
       $ticker = json_decode($this->getData());
       $this->state = $ticker->ticker;
     }
     
     public function getData() {
-        return gbwebclient::get($this->market_url, array())."\n";
+        $data = gbwebclient::get($this->market_url, array())."\n";
+        return $data;
     }
     
     public function saveState() {
@@ -74,7 +77,8 @@ class market {
           'sell' => $this->state->sell,
           'updated' => $this->state->updated,
           'server_time' => $this->state->server_time,
-          'local_time' => time()
+          'local_time' => time(),
+          'source' => $this->marketid
       );
       // FIXME: hardcoded database creds.
       $db = new gbdb('', BADBOY_DBHOST,
