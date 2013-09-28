@@ -1,0 +1,23 @@
+<div id="pool">
+    <input type="hidden" name="id"></input>
+    <fieldset>
+        <label>Name</label>
+        <input type="text" name="name"></input>
+    </fieldset>
+    <fieldset>
+        <label>API URL</label>
+        <input type="text" name="pool_api"></input>
+    </fieldset>
+    <fieldset>
+        <label>API Key</label>
+        <input type="text" name="pool_key"></input>
+    </fieldset>
+    <fieldset>
+        <label>Pool Currency</label>
+        <input type="text" name="pool_currency"></input>
+    </fieldset>
+    <fieldset>
+        <label>Pool Frequency</label>
+        <input type="text" name="pool_frequency"></input>
+    </fieldset>
+</div>

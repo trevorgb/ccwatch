@@ -1,0 +1,19 @@
+<div id="market">
+   <input type="hidden" name="id"></input>
+   <fieldset>
+        <label>Name</label>
+        <input type="text" name="name"></input>
+    </fieldset>
+    <fieldset>
+        <label>API URL</label>
+        <input type="text" name="market_api"></input>
+    </fieldset>
+    <fieldset>
+        <label>Market Currency</label>
+        <input type="text" name="market_currency"></input>
+    </fieldset>
+    <fieldset>
+        <label>Update Frequency</label>
+        <input type="text" name="market_frequency"></input>
+    </fieldset>
+</div>

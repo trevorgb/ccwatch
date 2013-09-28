@@ -7,10 +7,12 @@ define('DBTYPE_MYSQL', 'mysql');
 date_default_timezone_set('America/New_York');
 
 $db = new gbdb('', BADBOY_DBHOST, BADBOY_DBUSER, BADBOY_DBPASS, BADBOY_DBNAME, DBTYPE_MYSQL);
-
+$triggerMin = date('i');
 // Poll latest market data.
 $db->query('SELECT * FROM config WHERE parentid='.INDEXES_MARKET_PARENT);
 $markets = $db->getArray();
+
+
 foreach($markets as $market) {
     // now we get our market data.
     // get the actual details.
@@ -22,7 +24,7 @@ foreach($markets as $market) {
       $options[$mktVal['key']] = $mktVal['value'];
    }
    // if the minutes is divisible by the delay evenly...
-   if (!($options['market_frequency'] % date('i'. time()))) {
+   if (($triggerMin % $options['market_frequency']) == 0) {
       // ..save the data.
      $mkt = new market($options['market_api'], $options['id']);
      $mkt->saveState();
@@ -40,7 +42,8 @@ foreach ($pools as $pool) {
    foreach($poolVals as $poolVal) {
       $options[$poolVal['key']] = $poolVal['value'];
    }
-   if (!($options['pool_frequency']) % date('i', time())) {
+
+   if (($triggerMin % $options['pool_frequency']) == 0) {
          $pool = new pool($options['pool_key'], $options['pool_api'], $options['pool_id']);
       // pool->saveState does the slaves too.
       $pool->saveState();
