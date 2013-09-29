@@ -16,15 +16,46 @@ function init_ui() {
    $.ajax({url: 'api/?method=getPools',success: init_pools,dataType: 'json' });
    
    // init the Markets
+   $.ajax({url: 'api/?method=getMarkets',success: init_markets,dataType: 'json' });
    
    // init the Miners
 }
 
-function init_pools(src) {
-   // go to sync mode
-   jQuery.ajaxSetup({async:false});
+function init_markets(src) {
    if (src.status.code == 200) {
-      pools = src.records
+      $('#markets').html('');
+      jQuery.ajaxSetup({async:false});
+      var markets = src.records;
+      $(markets).each( function( index ) {
+         var market = markets[index];
+         $.get('api/?method=getMarket&param='+market.id, function(marketData) {
+            if (marketData.status.code == 200) {
+               var record = marketData.records[0];
+               $.get('int/summary.market.xml', function(xmlData) {
+                  // load the form...
+                  $('#markets').append('<div id=market'+market.id+'>'+xmlData+'</div>');
+                  // ...and set the values.
+//                  $('#market'+market.id+' #currency').val(String(market.market_currency));
+                  $('#market'+market.id+' legend').text(market.value);
+                  $('#market'+market.id+' #low').val(String(record.low));
+                  $('#market'+market.id+' #high').val(String(record.high));
+                  $('#market'+market.id+' #volume').val(String(record.volume_current));
+                  
+               }, 'html');
+            };
+         }, 'json');
+      });
+   } else {
+      alert(src.status.message);
+   }
+}
+
+function init_pools(src) {
+   if (src.status.code == 200) {
+      $('#pools').html('');
+      // go to sync mode
+      jQuery.ajaxSetup({async:false});
+      var pools = src.records
       $(pools).each( function( index ) {
          var pool = pools[index];
          // build and append the body for each pool
@@ -47,30 +78,15 @@ function init_pools(src) {
             }
          }, 'json');
       });
+      // go back to async mode
+      jQuery.ajaxSetup({async:true});
    } else {
       alert('API error');
    }
-   // go back to async mode
-   jQuery.ajaxSetup({async:true});
 }
 
 function load_page(pageToLoad, idToLoad) {
    switch(pageToLoad) {
-      case 'summary.pool.xml':
-         var toAddToPage = '';
-         $.get('int/summary.pool.xml', function(data) {
-           toAddToPage = data;
-            // now load the JSON for the ID and fill in the boxes.
-            $.get('api/?method=getPool&param='+idToLoad, function( data ) {
-               var record = data.records[0];
-               $('#action').html(toAddToPage);
-               $('#action #name').text(record.name);
-               $('#action #hashrate').text(record.hashrate);
-               $('#action #paidshares').text(record.paid);
-               alert('summary.pool done');
-            }, 'json');
-         }, 'html');
-         break;
       case 'summary.market.xml':
          var toAddToPage = '';
          $.get('int/summary.market.xml', function(data) {

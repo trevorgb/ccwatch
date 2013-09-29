@@ -21,6 +21,12 @@ switch ($method) {
    case 'getSlaves':
       getSlaves($response, $param);
       break;
+   case 'getMarkets':
+      getMarkets($response);
+      break;
+   case 'getMarket':
+      getMarket($response, $param);
+      break;
    case 'getSlave':
       getSlave($response, $param);
       break;
@@ -32,37 +38,52 @@ switch ($method) {
 
 die($response);
 
+class db {
+   public static function query($sql, $single = false) {
+      $db = new gbdb($sql, BADBOY_DBHOST, BADBOY_DBUSER, BADBOY_DBPASS, BADBOY_DBNAME, DBTYPE_MYSQL);
+      if ($single) {
+         $r = $db->getSingleArray();
+      } else {
+         $r = $db->getArray();
+      }
+      return $r;
+   }
+}
+
+function getMarkets($response) {
+   $response->addRecords(
+         db::query("select * from config WHERE parentid=".INDEXES_MARKET_PARENT));
+}
+
+function getMarket($response, $id) {
+   $response->addRecord(
+         db::query("SELECT * FROM market WHERE source=".$id." ORDER BY local_time DESC LIMIT 1",
+            true));   
+}
+
+
 function getPool($response, $id) {
-   // get a specific pool id.
-   $db = new gbdb('', BADBOY_DBHOST, BADBOY_DBUSER, BADBOY_DBPASS, BADBOY_DBNAME, DBTYPE_MYSQL);
-   $sql = "SELECT * FROM pool WHERE poolid=".$id." ORDER BY local_time DESC LIMIT 1";
-   $db->query($sql);
-   $r = $db->getSingleArray();
-   $response->addRecord($r);
+   $response->addRecord(
+         db::query("SELECT * FROM pool WHERE poolid=".$id." ORDER BY local_time DESC LIMIT 1",
+            true));
 }
 
 function getSlave($response, $id) {
    // get a specific slave.
-   $db = new gbdb("SELECT * FROM slaves WHERE =".$id, BADBOY_DBHOST, BADBOY_DBUSER, BADBOY_DBPASS, BADBOY_DBNAME, DBTYPE_MYSQL);
-   $recs = $db->getSingleArray();
-   $response->addRecords($recs);
+   $response->addRecord(
+         db::query("SELECT * FROM slaves WHERE =".$id, true));
 }
 
 function getSlaves($response) {
-      // get all slaves.
-      $db = new gbdb('', BADBOY_DBHOST, BADBOY_DBUSER, BADBOY_DBPASS, BADBOY_DBNAME, DBTYPE_MYSQL);
-      $sql = "select distinct poolid,name from slaves";
-      $db->query($sql);
-      $recs = $db->getArray();
-      $response->addRecords($recs);   
+   $response->addRecords(
+         db::query("select distinct poolid,name from slaves", true));
 }
 
 function getPools($response) {
-   // get all the names of the pools here.
-   $db = new gbdb("SELECT * FROM config WHERE parentid=".INDEXES_MINERS_PARENT, BADBOY_DBHOST, BADBOY_DBUSER, BADBOY_DBPASS, BADBOY_DBNAME, DBTYPE_MYSQL);
-   $r = $db->getArray();
-   $response->addRecords($r);
+   $response->addRecords(
+         db::query("SELECT * FROM config WHERE parentid=".INDEXES_MINERS_PARENT));
 }
+
 
 function getTickers($response) {
          // get the last 2 entries for the market.
