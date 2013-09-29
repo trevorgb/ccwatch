@@ -43,6 +43,9 @@ class pool {
     }
 }
 
+
+
+
 class market {
    // TODO: add logic to find the last time the ticker was checked.
    // if the last time was under the 'hammer threshold', say 600 seconds
@@ -90,7 +93,7 @@ class market {
 }
 
 
-class cryptsy {
+class exchange {
    public static function getInfo($key, $secret) {
       return self::apiquery('getinfo', $key, $secret);
    }
