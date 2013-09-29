@@ -1,9 +1,53 @@
 <div id="poolSummary">
-	<div><span>Name</span><div id="name"></div></div>
-   <div><span>Hash Rate</span><div id="hashRate"></div></div>
-	<div><span>Paid Shares</span><div id="paidShares"></div></div>
-	<div><span>Un-Paid Shares</span><div id="unpaidShares"></div></div>
-	<div><span>Balance</span><div id="balance"></div></div>
-	<div><span>Income Estimate</span><div id="income"></div></div>
-	<div><span>Hashrate</span><div id="hashrate"></div></div>
+	<fieldset>
+		<legend id="legend"></legend>
+		<label for="unpaidShares">UnPaid Shares</label>
+		<input type="text" id="unpaidShares" name="unpaidShares" />
+		<br />
+
+		<label for="balance">Balance</label>
+		<input type="text" id="balance" name="balance" />
+		<br />
+
+		<label for="income">Total Income</label>
+		<input type="text" id="income" name="income" />
+		<br />
+
+		<label for="projected">Projected Income</label>
+		<input type="text" id="projected" name="projected" />
+		<br />
+
+		<label for="hashrate">Hash Rate</label>
+		<input type="text" id="hashrate" name="hashrate" />
+		<br />
+
+		<label for="estimate">Round Estimate</label>
+		<input type="text" id="estimate" name="estimate" />
+	</fieldset>
+	<style>
+		fieldset {
+			border:1px solid orange;
+		}
+
+		legend {
+			padding: 0.2em 0.5em;
+			border:1px solid orange;
+			color:blue;
+			font-size:90%;
+			text-align:right;
+		}
+	fieldset {
+  padding: 1em;
+  font:80%/1 sans-serif;
+  }
+label {
+  float:left;
+  width:25%;
+  margin-right:0.5em;
+  padding-top:0.2em;
+  text-align:right;
+  font-weight:bold;
+  }
+
+	</style>
 </div>

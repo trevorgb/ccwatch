@@ -3,11 +3,6 @@
 require_once('../config.ini');
 require_once('classes.php');
 
-// methods allowed
-// getTickers
-// getPools
-// getSlave
-
 $response = new apiresponse();
 
 $method = (isset($_REQUEST['method'])) ? $_REQUEST['method'] : 'help';
@@ -21,10 +16,10 @@ switch ($method) {
       getPools($response);
       break;
    case 'getPool':
-      getPool($response, $id);
+      getPool($response, $param);
       break;
    case 'getSlaves':
-      getSlaves($response, $id);
+      getSlaves($response, $param);
       break;
    case 'getSlave':
       getSlave($response, $param);
@@ -39,16 +34,17 @@ die($response);
 
 function getPool($response, $id) {
    // get a specific pool id.
-   $response->setError('Not Coded', 100, 100);
+   $db = new gbdb('', BADBOY_DBHOST, BADBOY_DBUSER, BADBOY_DBPASS, BADBOY_DBNAME, DBTYPE_MYSQL);
+   $sql = "SELECT * FROM pool WHERE poolid=".$id." ORDER BY local_time DESC LIMIT 1";
+   $db->query($sql);
+   $r = $db->getSingleArray();
+   $response->addRecord($r);
 }
 
 function getSlave($response, $id) {
    // get a specific slave.
-   $db = new gbdb('', BADBOY_DBHOST, BADBOY_DBUSER, BADBOY_DBPASS, BADBOY_DBNAME, DBTYPE_MYSQL);
-   $sql = "SELECT * FROM slaves WHERE id=".$id;
-   $db->query($sql);
-   $recs = $db->getArray();
-   var_dump($recs);
+   $db = new gbdb("SELECT * FROM slaves WHERE =".$id, BADBOY_DBHOST, BADBOY_DBUSER, BADBOY_DBPASS, BADBOY_DBNAME, DBTYPE_MYSQL);
+   $recs = $db->getSingleArray();
    $response->addRecords($recs);
 }
 
@@ -63,10 +59,9 @@ function getSlaves($response) {
 
 function getPools($response) {
    // get all the names of the pools here.
-   $db = new gbdb('', BADBOY_DBHOST, BADBOY_DBUSER, BADBOY_DBPASS, BADBOY_DBNAME, DBTYPE_MYSQL);
-   $sql = "SELECT * FROM config WHERE parentid=".INDEXES_MINERS_PARENT;
-   die($sql);
-   $response->addRecord(array('name' => 'Pools names and stats go here...'));
+   $db = new gbdb("SELECT * FROM config WHERE parentid=".INDEXES_MINERS_PARENT, BADBOY_DBHOST, BADBOY_DBUSER, BADBOY_DBPASS, BADBOY_DBNAME, DBTYPE_MYSQL);
+   $r = $db->getArray();
+   $response->addRecords($r);
 }
 
 function getTickers($response) {
