@@ -1,8 +1,22 @@
-#action {
-   position: absolute;
-   top: 100px;
-   left: 200px;
-   width: 300px;
-   height: 300px;
-   border: 1px solid red;
+fieldset {
+   border:1px solid orange;
+   padding: 1em;
+   font:80%/1 sans-serif;
+}
+
+legend {
+   padding: 0.2em 0.5em;
+   border:1px solid orange;
+   color:blue;
+   font-size:90%;
+   text-align:right;
+}
+
+label {
+   float:left;
+   width:25%;
+   margin-right:0.5em;
+   padding-top:0.2em;
+   text-align:right;
+   font-weight:bold;
 }

@@ -20,34 +20,29 @@ function init_ui() {
    // init the Miners
 }
 
-function init_pools(data) {
-   if (data.status.code == 200) {
-      pools = data.records;
+function init_pools(src) {
+   // go to sync mode
+   jQuery.ajaxSetup({async:false});
+   if (src.status.code == 200) {
+      pools = src.records
       $(pools).each( function( index ) {
          var pool = pools[index];
          // build and append the body for each pool
-         
          // get the pool details
-         $.get('api/?method=getPool&param='+pool.id, function(data) {
-            if (data.status.code == 200) {
-               record = data.records[0];
+         $.get('api/?method=getPool&param='+pool.id, function(poolData) {
+            if (poolData.status.code == 200) {
+               record = poolData.records[0];
                // here we put 'summary.pool.xml'
-               $.get('int/summary.pool.xml', function(data) {
-                  var toAdd = '<div id="pool'+pool.id+'">';
-                  toAdd += data;
-                  toAdd += '</div>';
-                  
-                  // append it to the page
-                  $('#pools').append(toAdd);
-                  
+               $.get('int/summary.pool.xml', function(xmlData) {
+                  $('#pools').append('<div id="pool'+pool.id+'">'+xmlData+'</div>');
                   // and set the values.
-                  $('#pools #pool'+pool.id+' legend').text(String(pool.value));
-                  $('#pools #pool'+pool.id+' #unpaidShares').val(String(record.round_shares));
-                  $('#pools #pool'+pool.id+' #income').val(String(record.total_income));
-                  $('#pools #pool'+pool.id+' #hashrate').val(String(record.total_hashrate));
-                  $('#pools #pool'+pool.id+' #estimate').val(String(record.round_estimate));
-                  $('#pools #pool'+pool.id+' #projected').val(String(record.income_estimate));
-                  $('#pools #pool'+pool.id+' #balance').val(String(record.balance));
+                  $('#pool'+pool.id+' legend').text(String(pool.value));
+                  $('#pool'+pool.id+' #unpaidShares').val(String(record.round_shares));
+                  $('#pool'+pool.id+' #income').val(String(record.total_income));
+                  $('#pool'+pool.id+' #hashrate').val(String(record.total_hashrate));
+                  $('#pool'+pool.id+' #estimate').val(String(record.round_estimate));
+                  $('#pool'+pool.id+' #projected').val(String(record.income_estimate));
+                  $('#pool'+pool.id+' #balance').val(String(record.balance));
                }, 'html');
             }
          }, 'json');
@@ -55,6 +50,8 @@ function init_pools(data) {
    } else {
       alert('API error');
    }
+   // go back to async mode
+   jQuery.ajaxSetup({async:true});
 }
 
 function load_page(pageToLoad, idToLoad) {
