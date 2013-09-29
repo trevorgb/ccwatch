@@ -50,7 +50,11 @@ var miners = {
          $(miners).each(function( index, miner) {
             var minerData = api.call('miners', 'getMiner', miner.id);
             if (minerData.status.code == 200) {
-               //code
+               var record = minerData.records[0];
+               ui.setContent(api.load('summary.miners'),
+                             minerData.records[0],
+                             'miners',
+                             miner.id);
             } else {
                ui.error('API Error', minerData.status, 1000);
             }
@@ -69,9 +73,10 @@ var markets = {
          $(markets).each( function( index, market ) {
             var marketData = api.call('markets', 'getMarket', market.id);
             if (marketData.status.code == 200) {
-               var record = marketData.records[0];
-               var xmlData = api.load('summary.market');
-               ui.setContent(xmlData, record, 'markets', market.id);
+               ui.setContent(api.load('summary.market'),
+                             marketData.records[0],
+                             'markets',
+                             market.id);
             } else {
                ui.error('API ERROR', src.status, 1000);
             }

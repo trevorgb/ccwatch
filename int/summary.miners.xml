@@ -1,0 +1,15 @@
+<div id="minerSummary">
+	<fieldset>
+		<legend id="name"></legend>
+		<label for="host">Host</label>
+		<input type="text" id="host" name="host" />
+		<br />
+		
+		<label for="lastreport">Last Report</label>
+		<input type="text" id="lastreport" name="lastreport" />
+		<br />
+
+		<label for="editbutton">&nbsp;</label>
+		<input type="button" name="editbutton" id="editbutton" value="Edit" />
+	</fieldset>
+</div>
