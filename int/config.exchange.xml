@@ -13,5 +13,9 @@
       <label for="privkey">Private Key</label>
       <input type="text" name="privkey" id="privkey" />
       <br />
+      
+      <label for="frequency">Exchange Frequency</label>
+      <input type="text" name="frequency" id="frequency" />
+      <br />
    </fieldset>
 </div>
