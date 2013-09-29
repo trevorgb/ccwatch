@@ -1,0 +1,21 @@
+<div>
+   <input type="hidden" name="id"></input>
+   <fieldset>
+        <legend id="legend"></legend>
+        <label for="currency">Currency</label>
+        <input type="text" name="currency" id="currency" />
+        <br />
+
+        <label for="high">High</label>
+        <input type="text" name="high" id="high" />
+        <br />
+
+        <label for="low">Low</label>
+        <input type="text" name="low" id="low" />
+        <br />
+
+        <label for="volume">Volume</label>
+        <input type="text" name="volume" id="volume" />
+        <br />
+    </fieldset>
+</div>

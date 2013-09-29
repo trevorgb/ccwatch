@@ -507,7 +507,7 @@ class gbwebclient {
    * @param array $options for cURL
    * @return string
    */   
-   static public function post($url, array $post = NULL, array $options = array())
+   static public function post($url, array $post = array(), array $options = array())
    {
       $defaults = array(
          CURLOPT_POST => 1,

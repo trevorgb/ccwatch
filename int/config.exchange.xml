@@ -1,0 +1,17 @@
+<div>
+   <input type="hidden" name="id" />
+   <fieldset>
+      <legend></legend>
+      <label for="apiurl">API Address</label>
+      <input type="text" name="apiurl" id="apiurl" />
+      <br />
+      
+      <label for="pubkey">Public Key</label>
+      <input type="text" name="pubkey" id="pubkey" />
+      <br />
+      
+      <label for="privkey">Private Key</label>
+      <input type="text" name="privkey" id="privkey" />
+      <br />
+   </fieldset>
+</div>
