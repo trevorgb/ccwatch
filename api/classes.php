@@ -31,10 +31,9 @@ class pool {
       );
       $db = new gbdb('', BADBOY_DBHOST, BADBOY_DBUSER, BADBOY_DBPASS, BADBOY_DBNAME, DBTYPE_MYSQL);
       $db->insert('pool', $poolVals);
-      $poolRowID = $db->insertID();
       foreach ($this->state->workers as $name => $body) {
          $slaveVals = array('name' => $name,
-            'poolid' => $poolRowID,
+            'poolid' => $this->poolid,
             'alive' => $body->alive,
             'hashrate' => $body->hashrate,
             'lastreport' => $body->last_share_timestamp,

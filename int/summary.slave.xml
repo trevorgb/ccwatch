@@ -1,0 +1,10 @@
+<div id="summary">
+   <fieldset>
+      <label>Name</label>
+      <input type="text" id="name"></input>
+   </fieldset>
+   <fieldset>
+      <label>Hashrate</label>
+      <input type="text" id="hashrate"></input>KH/s
+   </fieldset>
+</div>
