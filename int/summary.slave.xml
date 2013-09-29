@@ -7,4 +7,8 @@
       <label>Hashrate</label>
       <input type="text" id="hashrate"></input>KH/s
    </fieldset>
+   <fieldset>
+      <label>Hashrate</label>
+      <input type="text" id="hashrate"></input>KH/s
+   </fieldset>
 </div>

@@ -23,5 +23,9 @@
 
 		<label for="estimate">Round Estimate</label>
 		<input type="text" id="estimate" name="estimate" />
+		<br />
+		
+		<label for="edit">&nbsp;</label>
+		<input type="button" name="edit" value="Edit" />
 	</fieldset>
 </div>
