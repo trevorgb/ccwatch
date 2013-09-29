@@ -43,14 +43,7 @@ class pool {
     }
 }
 
-
-
-
 class market {
-   // TODO: add logic to find the last time the ticker was checked.
-   // if the last time was under the 'hammer threshold', say 600 seconds
-   // fill the status with the last state and update the local time only.
-   // else process as a new market state.
     private $market_url = '';
     private $marketid = 0;
     private $state = '';
@@ -140,10 +133,11 @@ class exchange {
          curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
          curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/4.0 (compatible; BTCE PHP client; '.php_uname('s').'; PHP/'.phpversion().')');
       }
-      curl_setopt($ch, CURLOPT_URL, 'https://btc-e.com/tapi/');
-      curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
-      curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-      curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+      $opts = array('CURLOPT_URL' => 'https://btc-e.com/tapi/',
+                    'CURLOPT_POSTFIELDS' => $post_data,
+                    'CURLOPT_HTTPHEADER' => $headers,
+                    'CURLOPT_SSL_VERIFYPEER' => FALSE);
+      curl_setopt_array($opts);
    
       // run the query
       $res = curl_exec($ch);
@@ -177,10 +171,11 @@ class exchange {
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/4.0 (compatible; Cryptsy API PHP client; '.php_uname('s').'; PHP/'.phpversion().')');
         }
-        curl_setopt($ch, CURLOPT_URL, 'https://www.cryptsy.com/api');
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+        $opts = array('CURLOPT_URL' => 'https://www.cryptsy.com/api',
+                      'CURLOPT_HTTPHEADER' => $post_data,
+                      'CURLOPT_HTTPHEADER' => $headers,
+                      'CURLOPT_SSL_VERIFYPERR' => FALSE);
+        curl_setopt_array($opts);
  
         // run the query
         $res = curl_exec($ch);

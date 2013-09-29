@@ -1,19 +1,20 @@
 <div id="market">
    <input type="hidden" name="id"></input>
    <fieldset>
-        <label>Name</label>
-        <input type="text" name="name"></input>
-    </fieldset>
-    <fieldset>
-        <label>API URL</label>
-        <input type="text" name="market_api"></input>
-    </fieldset>
-    <fieldset>
-        <label>Market Currency</label>
-        <input type="text" name="market_currency"></input>
-    </fieldset>
-    <fieldset>
-        <label>Update Frequency</label>
-        <input type="text" name="market_frequency"></input>
+        <label for="name">Name</label>
+        <input type="text" name="name" id="name" />
+        <br />
+
+        <label for="api">API URL</label>
+        <input type="text" name="market_api" id="market_api" />
+        <br />
+
+        <label for="currency">Market Currency</label>
+        <input type="text" name="currency" id="currency" />
+        <br />
+
+        <label for="frequency">Update Frequency</label>
+        <input type="text" name="frequency" id="frequency" />
+        <br />
     </fieldset>
 </div>

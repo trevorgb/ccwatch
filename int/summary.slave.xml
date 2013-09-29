@@ -1,14 +1,11 @@
 <div id="summary">
    <fieldset>
-      <label>Name</label>
-      <input type="text" id="name"></input>
-   </fieldset>
-   <fieldset>
-      <label>Hashrate</label>
-      <input type="text" id="hashrate"></input>KH/s
-   </fieldset>
-   <fieldset>
-      <label>Hashrate</label>
-      <input type="text" id="hashrate"></input>KH/s
+      <label for="name">Name</label>
+      <input type="text" id="name" name="name" />
+      <br />
+
+      <label for="hashrate">Hashrate</label>
+      <input type="text" id="hashrate" name="hashrate" />KH/s
+      <br />
    </fieldset>
 </div>

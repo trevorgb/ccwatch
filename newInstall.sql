@@ -15,8 +15,19 @@ INSERT INTO `config` (`id`, `parentid`, `key`, `value`, `description`)
 VALUES
 	(1,0,'pools','','Parent for All Pools'),
 	(2,0,'markets','','Parent for All Markets');
+   (3,0,'exchanges','','Parent for All Exchanges');
 
 DROP TABLE IF EXISTS `market`;
+
+CREATE TABLE `miners` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `host` varchar(255) DEFAULT NULL,
+  `user` varchar(255) DEFAULT NULL,
+  `bin` varchar(255) DEFAULT NULL,
+  `userpass` varchar(255) DEFAULT NULL,
+  `poolurl` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `market` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,

@@ -1,0 +1,25 @@
+<div id="miner">
+   <input type="hidden" name="id" />
+   <fieldset>
+      <label for="host">Host</label>
+      <input type="text" name="host" id="host" />
+      <br />
+
+      <label for="user">System User</label>
+      <input type="text" name="user" id="user" />
+      <br />
+
+      <label for="bin">Bin</label>
+      <input type="text" name="bin" id="bin" />
+      <br />
+
+      <label for="poolurl">Pool URL</label>
+      <input type="text" name="poolurl" id="poolurl" />
+      <br />
+   
+      <label for="userpass">Pool Account</label>
+      <input type="text" name="userpass" id="userpass" />
+      <br />
+   
+   </fieldset>
+</div>
