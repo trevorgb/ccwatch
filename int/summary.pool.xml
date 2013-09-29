@@ -1,28 +1,28 @@
 <div id="poolSummary">
 	<fieldset>
-		<legend id="legend"></legend>
-		<label for="unpaidShares">UnPaid Shares</label>
-		<input type="text" id="unpaidShares" name="unpaidShares" />
+		<legend id="name"></legend>
+		<label for="round_shares">UnPaid Shares</label>
+		<input type="text" id="round_shares" name="round_shares" />
 		<br />
 
 		<label for="balance">Balance</label>
 		<input type="text" id="balance" name="balance" />
 		<br />
 
-		<label for="income">Total Income</label>
-		<input type="text" id="income" name="income" />
+		<label for="total_income">Total Income</label>
+		<input type="text" id="total_income" name="total_income" />
 		<br />
 
 		<label for="projected">Projected Income</label>
 		<input type="text" id="projected" name="projected" />
 		<br />
 
-		<label for="hashrate">Hash Rate</label>
-		<input type="text" id="hashrate" name="hashrate" />
+		<label for="total_hashrate">Hash Rate</label>
+		<input type="text" id="total_hashrate" name="total_hashrate" />
 		<br />
 
-		<label for="estimate">Round Estimate</label>
-		<input type="text" id="estimate" name="estimate" />
+		<label for="income_estimate">Round Estimate</label>
+		<input type="text" id="income_estimate" name="income_estimate" />
 		<br />
 		
 		<label for="edit">&nbsp;</label>

@@ -5,35 +5,19 @@ require_once('classes.php');
 
 $response = new apiresponse();
 
+$model  = (isset($_REQUEST['model'])) ? $_REQUEST['model'] : 'util';
 $method = (isset($_REQUEST['method'])) ? $_REQUEST['method'] : 'help';
 $param  = (isset($_REQUEST['param']))  ? $_REQUEST['param']  : '';
 
-switch ($method) {
-   case 'getTickers':
-      getTickers($response);
-      break;
-   case 'getPools':
-      getPools($response);
-      break;
-   case 'getPool':
-      getPool($response, $param);
-      break;
-   case 'getSlaves':
-      getSlaves($response, $param);
-      break;
-   case 'getMarkets':
-      getMarkets($response);
-      break;
-   case 'getMarket':
-      getMarket($response, $param);
-      break;
-   case 'getSlave':
-      getSlave($response, $param);
-      break;
-   case 'help':
-   default:
-      // build the help here.
-      $response->setError('show the user help', 100, 100);
+if (class_exists($model)) {
+   if (method_exists($model, $method)) {
+      $x = new $model;
+      $x->$method($response, $param);
+   } else {
+      $response->setError('API ERROR', 1000, 101); // method not found
+   }
+} else {
+   $response->setError('API ERROR', 1000, 100); // model not found
 }
 
 die($response);
@@ -50,59 +34,59 @@ class db {
    }
 }
 
-function getMarkets($response) {
-   $response->addRecords(
-         db::query("select * from config WHERE parentid=".INDEXES_MARKET_PARENT));
+class util {
+   function help($request) {
+     // build the 'API HELP' page.
+     $request->addRecord('API Help to be written.');
+   }
 }
 
-function getMarket($response, $id) {
-   $response->addRecord(
+
+class markets {
+   public function getMarkets($response) {
+      $response->addRecords(
+         db::query("select * from config WHERE parentid=".INDEXES_MARKET_PARENT));   
+   }
+   
+   public function getMarket($response, $id) {
+      $response->addRecord(
          db::query("SELECT * FROM market WHERE source=".$id." ORDER BY local_time DESC LIMIT 1",
-            true));   
+            true));
+   }
 }
 
+class miners {
+    public function getMiners($response) {
+         $response->addRecords(db::query("SELECT * FROM miners"));
+    }
+    
+    public function getMiner($response, $id) {
+      $response->addRecord(db::query("SELECT * FROM miners WHERE id=".$id, true));
+    }
+}
 
-function getPool($response, $id) {
+class pools {
+   public function getPool($response, $id) {
    $response->addRecord(
          db::query("SELECT * FROM pool WHERE poolid=".$id." ORDER BY local_time DESC LIMIT 1",
             true));
+   }
+   
+   public function getPools($response) {
+      $response->addRecords(
+      db::query("SELECT * FROM config WHERE parentid=".INDEXES_MINERS_PARENT));
+   }
 }
 
-function getSlave($response, $id) {
-   // get a specific slave.
-   $response->addRecord(
-         db::query("SELECT * FROM slaves WHERE =".$id, true));
-}
-
-function getSlaves($response) {
-   $response->addRecords(
-         db::query("select distinct poolid,name from slaves", true));
-}
-
-function getPools($response) {
-   $response->addRecords(
-         db::query("SELECT * FROM config WHERE parentid=".INDEXES_MINERS_PARENT));
-}
-
-
-function getTickers($response) {
-         // get the last 2 entries for the market.
-      $db = new gbdb('', BADBOY_DBHOST, BADBOY_DBUSER, BADBOY_DBPASS, BADBOY_DBNAME, DBTYPE_MYSQL);
-      $sql = "SELECT * FROM market ORDER BY localtime LIMIT 2";
-      $db->query($sql);
-      $results = $db->getArray();
-      $now = $results[0];
-      $past = $results[1];
-      switch (true) {
-         case ($past['high'] > $now['low']):
-            $col = "red";
-            break;
-         case ($past['high'] < $now['low']):
-            $col = "green";
-            break;
-         default:
-            break;
-      }
-      $ret = "LTC: <span class='".$col."'>".$now['high']."</span>";
-      $response->addRecord($ret);
+class slaves {
+   public function getSlave($response, $id) {
+      // get a specific slave.
+      $response->addRecord(
+            db::query("SELECT * FROM slaves WHERE =".$id, true));
+   }
+   
+   public function getSlaves($response) {
+      $response->addRecords(
+            db::query("select distinct poolid,name from slaves", true));
+   }   
 }

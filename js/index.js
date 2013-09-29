@@ -3,16 +3,19 @@ $(document).ready(function() {
 });
 
 var ui = {
+   minErrorLevel: 100,
    init: function() {
+      // init the tabs
       $('#interface').tabs();
 
-      // init the Pools
-      $.ajax({url: 'api/?method=getPools',success: pools.init,dataType: 'json' });
-   
-      // init the Markets
-      $.ajax({url: 'api/?method=getMarkets',success: markets.init,dataType: 'json' });
-   
-   // init the Miners
+      pools.init(api.call('pools', 'getPools'));
+      markets.init(api.call('markets', 'getMarkets'));   
+
+      // init the Exchanges
+//      exchanges.init(api.call('exchanges', 'getExchanges'));
+      
+      // init the Miners
+      miners.init(api.call('miners', 'getMiners'));
    },
    setContent: function(frame, data, target, id) {
       var newID = target+id;
@@ -29,88 +32,120 @@ var ui = {
             }
         }
       });
+   },
+   error: function(title, status, level) {
+      if (level >= ui.minErrorLevel) {
+         alert(status.message);
+      } else {
+         console.log(status.message);
+      }
    }
-}
+};
+
+var miners = {
+   init: function(src) {
+      if (src.status.code == 200) {
+         $('#miners').html('');
+         var miners = src.records;
+         $(miners).each(function( index, miner) {
+            var minerData = api.call('miners', 'getMiner', miner.id);
+            if (minerData.status.code == 200) {
+               //code
+            } else {
+               ui.error('API Error', minerData.status, 1000);
+            }
+         });
+      } else {
+         ui.error('API ERROR', src.status, 1000);
+      }
+   }
+};
 
 var markets = {
    init: function(src) {
       if (src.status.code == 200) {
          $('#markets').html('');
-         jQuery.ajaxSetup({async:false});
          var markets = src.records;
-         $(markets).each( function( index ) {
-            var market = markets[index];
-            $.get('api/?method=getMarket&param='+market.id, function(marketData) {
-               if (marketData.status.code == 200) {
-                  var record = marketData.records[0];
-                  $.get('int/summary.market.xml', function(xmlData) {
-                     record.name = markets[index].value;
-                     ui.setContent(xmlData, record, 'markets', market.id);
-                  }, 'html');
-               };
-            }, 'json');
+         $(markets).each( function( index, market ) {
+            var marketData = api.call('markets', 'getMarket', market.id);
+            if (marketData.status.code == 200) {
+               var record = marketData.records[0];
+               var xmlData = api.load('summary.market');
+               ui.setContent(xmlData, record, 'markets', market.id);
+            } else {
+               ui.error('API ERROR', src.status, 1000);
+            }
          });
       } else {
-         alert(src.status.message);    
+         ui.error('API ERROR', src.status, 1000);
       };
    }
 };
-   
-   
+
+
+
+var exchanges = {
+   init: function(src) {
+      /*
+      if (src.status.code == 200) {
+         $('#exchanges').html('');
+         jQuery.ajaxSetup({async:false});
+         var exchanges = src.records;
+         $exchanges.each( function(index) {
+            var exchange = exchanges[index];
+            $.get()
+         });
+      } else {
+         alert(src.status.message);
+      }
+      */
+   }
+};
+
+var api = {
+   call: function(type, method, param) {
+      
+      jQuery.ajaxSetup({async:false});
+      var result = '';
+      var url = 'api/?model='+type+'&method='+method;
+      if (param !== undefined) {
+         url += '&param='+param;
+      }
+      $.get(url, function(data) {
+         result = data;
+      }, 'json');
+      jQuery.ajaxSetup({async:true});
+      return result;
+   },
+   load: function( chunk ) {
+      jQuery.ajaxSetup({async:false});
+      var result = '';
+      var url = 'int/'+chunk+'.xml';
+      $.get(url, function(data) {
+         result = data;
+      }, 'html');
+      return result;
+   }
+}
+
 var pools = {
    init: function (src) {
       if (src.status.code == 200) {
          $('#pools').html('');
-         // go to sync mode
-         jQuery.ajaxSetup({async:false});
-         var pools = src.records
-         $(pools).each( function( index ) {
-            var pool = pools[index];
-            // build and append the body for each pool
-            // get the pool details
-            $.get('api/?method=getPool&param='+pool.id, function(poolData) {
-               if (poolData.status.code == 200) {
-                  record = poolData.records[0];
-                  // here we put 'summary.pool.xml'
-                  $.get('int/summary.pool.xml', function(xmlData) {
-                     $('#pools').append('<div id="pool'+pool.id+'">'+xmlData+'</div>');
-                     // and set the values.
-                     $('#pool'+pool.id+' legend').text(String(pool.value));
-                     $('#pool'+pool.id+' #unpaidShares').val(String(record.round_shares));
-                     $('#pool'+pool.id+' #income').val(String(record.total_income));
-                     $('#pool'+pool.id+' #hashrate').val(String(record.total_hashrate));
-                     $('#pool'+pool.id+' #estimate').val(String(record.round_estimate));
-                     $('#pool'+pool.id+' #projected').val(String(record.income_estimate));
-                     $('#pool'+pool.id+' #balance').val(String(record.balance));
-                  }, 'html');
-               }
-            }, 'json');
+         var pools = src.records;
+         $(pools).each( function( index, pool ) {
+            poolData = api.call('pools', 'getPool', pool.id);
+            if (poolData.status.code == 200) {
+               var poolRecord = poolData.records[0];
+               xmlData = api.load('summary.pool');
+               poolRecord.name = pools[index].value;
+               ui.setContent(xmlData,poolRecord,'pools', pool.id);
+            } else {
+               ui.error('API ERROR', poolData.status, 1000);
+            }
          });
-         // go back to async mode
-         jQuery.ajaxSetup({async:true});
       } else {
-         alert('API error');
+         ui.error('API ERROR', src.status, 1000);
       }
    }
 };
-
-function load_page(pageToLoad, idToLoad) {
-   switch(pageToLoad) {
-      case 'summary.slave.xml':
-         var toAddToPage = '';
-         $.get('int/summary.slave.xml', function(data) {
-            toAddToPage = data;
-            $.get('api/?method=getSlave?param='+idToLoad, function(data) {
-               var record = data.records[0];
-               $('#action').html(toAddToPage);
-               $('#action #name').text(record.name);
-               $('#action #hashrate').text(record.hashrate);
-            });
-         }, 'html');
-         break;
-   }
-}
-
-function setValues() {
-   
-}
