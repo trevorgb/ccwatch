@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>ProtitWatch</title>
+      <script src="js/jquery.js"></script>
+      <script src="js/jquery-ui.js"></script>
+      <link type="text/css" rel="stylesheet" href="css/jquery.css" />
+      <link rel="stylesheet" href="css/excite-bike/jquery-ui.css" />
+      <meta charset="utf-8">
+   </head>
+   <body>
+      <div id="body">
+         <div id="topHalf">
+            <div id="buySide">
+               <fieldset>
+                  <label for="btc2buy">BTC To Buy</label>
+                  <input type="text" name="btc2buy" id="btc2buy" class="field" />
+                  <br />
+                  
+                  <label for="buyPrice">USD/BTC</label>
+                  <input type="text" name="buyPrice" class="field" id="buyPrice" />
+                  <br />
+                  
+                  <label for="buyFee">0.6% Fee</label>
+                  <input type="text" name="buyFee" id="buyFee" disabled="disabled" />
+                  <br />
+                  
+                  <label for="buyNet">Buy Net</label>
+                  <input type="text" name="buyNet" id="buyNet" disabled="disabled" />
+                  <br />
+               </fieldset>
+            </div>
+            <div id="sellSide">
+               <fieldset>
+                  <label for="sellPrice">Sell Price</label>
+                  <input type="text" name="sellPrice" />
+                  <br />
+               </fieldset>
+            </div>
+         </div>
+         <div id="outcomeBlock">
+            <table cols="7" border='1'>
+               <tr>
+                  <td>Buy Date</td>
+                  <td>Buy Price</td>
+                  <td>Buy Value</td>
+                  <td>Sell Date</td>
+                  <td>Sell Price</td>
+                  <td>Sell Value</td>
+                  <td>Fees</td>
+               </tr>
+            </table>
+         </div>
+   </body>
+   <script>
+      $(document).ready( function() {
+         $('.field').blur( function() {
+            var toBuy = $('#btc2buy').val();
+            var price = $('#buyPrice').val();
+            
+            var buyValue = toBuy * price;
+                        
+            if (toBuy > 0 && price > 0) {
+               var fee = calcFee(buyValue);
+               var netValue = buyValue - fee;
+               $('#buyFee').val(fee);
+               // we need to calculate the lowest fee.
+               $('#buyNet').val(netValue);
+            }
+         });
+      });
+      
+      function calcFee(value) {
+         return value * 0.006
+      }
+      
+   </script>
+   <style>
+   fieldset {
+      border:1px solid orange;
+      padding: 1em;
+      font:80%/1 sans-serif;
+   }
+   
+   legend {
+      padding: 0.2em 0.5em;
+      border:1px solid orange;
+      color:blue;
+      font-size:90%;
+      text-align:right;
+   }
+   
+   label {
+      float:left;
+      width:25%;
+      margin-right:0.5em;
+      padding-top:0.2em;
+      text-align:right;
+      font-weight:bold;
+   }
+
+   </style>
+</html>
