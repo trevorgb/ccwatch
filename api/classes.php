@@ -34,7 +34,7 @@ class pool {
       $db->insert('pool', $poolVals);
       foreach ($this->state->workers as $name => $body) {
          $slaveVals = array('name' => $name,
-            'poolid' => $this->poolid,
+            'poolid' => $poolVals->poolid,
             'alive' => $body->alive,
             'hashrate' => $body->hashrate,
             'lastreport' => $body->last_share_timestamp,
